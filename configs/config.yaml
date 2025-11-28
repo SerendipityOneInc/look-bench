@@ -1,0 +1,130 @@
+# LookBench Configuration
+# Fashion Image Retrieval Benchmark
+# BEIR-style configuration for fashion datasets and models
+
+# Global settings
+global:
+  cache_dir: "~/.cache"
+  log_level: "INFO"
+  seed: 42
+
+# Logging configuration
+logging:
+  level: "INFO"
+  log_file: "logs/benchmark.log"
+  console_output: true
+  structured_logging: false
+  max_bytes: 10485760  # 10MB
+  backup_count: 5
+  suppress_external: true
+
+# Dataset configuration - BEIR style
+datasets:
+  # Fashion200K - Large-scale fashion retrieval
+  fashion200k:
+    data_root: "data/fashion200k"
+    splits:
+      query: "query"
+      gallery: "gallery"
+    parquet_files:
+      query: "query.parquet"
+      gallery: "gallery.parquet"
+  
+  # DeepFashion - Fashion understanding dataset
+  deepfashion:
+    data_root: "data/deepfashion"
+    splits:
+      query: "query"
+      gallery: "gallery"
+    parquet_files:
+      query: "query.parquet"
+      gallery: "gallery.parquet"
+  
+  # DeepFashion2 - Advanced fashion dataset
+  deepfashion2:
+    data_root: "data/deepfashion2"
+    splits:
+      query: "query"
+      gallery: "gallery"
+    parquet_files:
+      query: "query.parquet"
+      gallery: "gallery.parquet"
+  
+  # Fashion Product Images
+  fashion_product:
+    data_root: "data/fashion_product"
+    splits:
+      query: "query"
+      gallery: "gallery"
+    parquet_files:
+      query: "query.parquet"
+      gallery: "gallery.parquet"
+  
+  # Product10K
+  product10k:
+    data_root: "data/product10k"
+    splits:
+      query: "query"
+      gallery: "gallery"
+    parquet_files:
+      query: "query.parquet"
+      gallery: "gallery.parquet"
+  
+  # DataLoader settings
+  batch_size: 128
+  num_workers: 8
+  shuffle: false
+  pin_memory: true
+  drop_last: false
+
+# Pipeline configuration
+pipeline:
+  name: "evaluation"  # Pipeline to run: evaluation, feature_extraction
+  model: "clip"  # Model name
+  dataset: "fashion200k"  # Dataset type
+  args: {}  # Pipeline-specific arguments
+
+# Evaluation configuration
+evaluation:
+  metric: "recall"  # recall (rank), mrr, ndcg, map
+  top_k: [1, 5, 10, 20]  # K values for evaluation
+  l2norm: true  # L2 normalize features
+  evaluator_params: {}  # Additional evaluator parameters
+
+# Model configurations
+# CLIP - OpenAI's Contrastive Language-Image Pre-training
+clip:
+  enabled: true
+  model_name: "openai/clip-vit-base-patch16"
+  model_path: null
+  input_size: 224
+  embedding_dim: 512
+  device: "cuda"
+
+# SigLIP - Google's Sigmoid Loss for Language-Image Pre-training
+siglip:
+  enabled: true
+  model_name: "google/siglip-base-patch16-224"
+  model_path: null
+  input_size: 224
+  embedding_dim: 768
+  device: "cuda"
+
+# DINOv2 - Self-supervised Vision Transformer
+dinov2:
+  enabled: true
+  model_name: "facebook/dinov2-base"
+  model_path: null
+  input_size: 224
+  embedding_dim: 768
+  device: "cuda"
+
+# Example of custom model configuration
+custom_model:
+  enabled: false
+  model_name: "path/to/model"
+  model_path: null
+  input_size: 224
+  embedding_dim: 512
+  device: "cuda"
+
