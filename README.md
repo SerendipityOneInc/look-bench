@@ -111,16 +111,24 @@ python main.py --pipeline evaluation --model clip
 python main.py --config configs/config.yaml
 ```
 
-### Example Scripts
+### Example Scripts & Notebooks
 
-Check out our example scripts for detailed usage:
+We provide both **Python scripts** and **Google Colab notebooks** for easy experimentation:
+
+#### 📓 Colab Notebooks (Run in Browser)
+
+- **[01_quickstart.ipynb](notebooks/01_quickstart.ipynb)** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/SerendipityOneInc/look-bench/blob/main/notebooks/01_quickstart.ipynb) - Basic usage and dataset exploration
+- **[02_model_evaluation.ipynb](notebooks/02_model_evaluation.ipynb)** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/SerendipityOneInc/look-bench/blob/main/notebooks/02_model_evaluation.ipynb) - Complete evaluation pipeline
+- **[03_custom_model.ipynb](notebooks/03_custom_model.ipynb)** [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/SerendipityOneInc/look-bench/blob/main/notebooks/03_custom_model.ipynb) - Integrate custom models
+
+#### 🐍 Python Scripts (Run Locally)
 
 - **[examples/01_quickstart.py](examples/01_quickstart.py)** - Basic usage and dataset exploration
 - **[examples/02_model_evaluation.py](examples/02_model_evaluation.py)** - Complete model evaluation pipeline
 - **[examples/03_custom_model.py](examples/03_custom_model.py)** - Integrate your own custom models
 
 ```bash
-# Run examples
+# Run examples locally
 python examples/01_quickstart.py
 python examples/02_model_evaluation.py
 python examples/03_custom_model.py
