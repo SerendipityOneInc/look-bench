@@ -34,7 +34,8 @@ env/
 
 # Jupyter Notebook
 .ipynb_checkpoints
-*.ipynb
+# Don't ignore notebooks in notebooks/ directory
+# *.ipynb
 
 # Logs
 logs/
