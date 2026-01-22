@@ -60,3 +60,7 @@ Thumbs.db
 .env.local
 secrets.yaml
 *_token.txt
+
+# Cleanup scripts (temporary)
+execute_cleanup.sh
+finish_cleanup.sh
