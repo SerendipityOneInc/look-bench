@@ -1,30 +1,76 @@
-# LookBench: Fashion Image Retrieval Benchmark
+# LookBench: A Live and Holistic Open Benchmark for Fashion Image Retrieval
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![arXiv](https://img.shields.io/badge/arXiv-2601.14706-b31b1b.svg)](https://arxiv.org/abs/2601.14706)
+[![Project Page](https://img.shields.io/badge/Project-Page-green.svg)](https://serendipityoneinc.github.io/look-bench-page/)
+[![Dataset](https://img.shields.io/badge/🤗-Dataset-yellow.svg)](https://huggingface.co/datasets/srpone/look-bench)
+[![Model](https://img.shields.io/badge/🤗-GR--Lite-orange.svg)](https://huggingface.co/srpone/gr-lite)
 
-**LookBench** is a comprehensive, production-ready benchmarking framework for evaluating fashion image retrieval models. Inspired by BEIR's organization style, LookBench provides a unified interface for multiple state-of-the-art vision models with standardized evaluation metrics and professional logging systems.
+**LookBench** is a live, holistic, and challenging benchmark for fashion image retrieval in real e-commerce settings. This repository provides the official evaluation code and model implementations.
 
-## 🚀 Features
+## 📰 News
 
-- **Multi-Model Support**: Integrated support for CLIP, SigLIP, DINOv2, and more via registry pattern
-- **BEIR-Style Organization**: Clean dataset organization similar to BEIR benchmark
-- **Standardized Evaluation**: Consistent evaluation pipeline with multiple metrics (Recall@K, MRR, NDCG, MAP)
-- **Registry Pattern**: Easy model and dataset registration for extensibility
-- **Professional Architecture**: Clean, modular design with factory classes and registry pattern
-- **Comprehensive Logging**: Structured logging with performance monitoring and error tracking
-- **Flexible Configuration**: YAML-based configuration for easy model and dataset management
-- **Production Ready**: Error handling, device management, and batch processing optimization
+- **[2026-01]** LookBench paper released on arXiv
+- **[2026-01]** GR-Lite open-source model released
+- **[2026-01]** Initial benchmark dataset released
+
+## 📖 Overview
+
+LookBench addresses the limitations of existing fashion retrieval benchmarks by providing:
+
+- **🔄 Continuously Refreshing Samples**: Mitigates data contamination with time-stamped, periodically updated test sets
+- **🎯 Diverse Retrieval Tasks**: Covers single-item and multi-item retrieval across real studio, AI-generated studio, real street-look, and AI-generated street-look scenarios
+- **📊 Attribute-Supervised Evaluation**: Fine-grained evaluation based on 100+ fashion attributes across categories
+- **🏆 Challenging Benchmarks**: Many strong baselines achieve below 60% Recall@1
+
+### Benchmark Subsets
+
+| Dataset | Image Source | # Retrieval Items | Difficulty | # Queries / Corpus |
+|---------|--------------|-------------------|------------|-------------------|
+| **RealStudioFlat** | Real studio flat-lay product photos | Single | Easy | 1,011 / 62,226 |
+| **AIGen-Studio** | AI-generated lifestyle studio images | Single | Medium | 192 / 59,254 |
+| **RealStreetLook** | Real street outfit photos | Multi | Hard | 1,000 / 61,553 |
+| **AIGen-StreetLook** | AI-generated street outfit compositions | Multi | Hard | 160 / 58,846 |
+
+## 🚀 Quick Start
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/SerendipityOneInc/look-bench.git
+cd look-bench
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### Download Dataset
+
+Download the LookBench dataset from [Hugging Face](https://huggingface.co/datasets/srpone/look-bench) and organize it in the `data/` directory.
+
+### Run Evaluation
+
+```bash
+# Run evaluation with default configuration
+python main.py
+
+# Run with specific model and dataset
+python main.py --model clip --dataset fashion200k
+
+# Use custom configuration
+python main.py --config configs/config.yaml
+```
 
 ## 🏗️ Architecture
 
 ```
 look-bench/
-├── main.py                 # Main entry point and benchmark runner
+├── main.py                 # Main entry point (config-driven)
 ├── manager.py              # Configuration, model, and data managers
 ├── runner/                 # Pipeline execution framework
-│   ├── __init__.py        # Runner module exports
 │   ├── base_pipeline.py   # Base pipeline class
 │   ├── evaluator.py       # Core evaluation logic
 │   ├── pipeline.py        # Pipeline registry
@@ -33,27 +79,21 @@ look-bench/
 ├── models/                 # Model implementations and registry
 │   ├── base.py            # Base model interface
 │   ├── registry.py        # Model registration system
-│   ├── factory.py         # Model factory for instantiation
-│   ├── clip_model.py      # CLIP model implementation
-│   ├── siglip_model.py    # SigLIP model implementation
-│   └── dinov2_model.py    # DINOv2 model implementation
+│   ├── factory.py         # Model factory
+│   ├── clip_model.py      # CLIP model
+│   ├── siglip_model.py    # SigLIP model
+│   └── dinov2_model.py    # DINOv2 model
 ├── datasets/               # Dataset loading (BEIR-style)
 │   ├── base.py            # Base dataset implementation
 │   └── registry.py        # Dataset registry
 ├── metrics/                # Evaluation metrics
-│   ├── base.py            # Base evaluator interface
-│   ├── rank.py            # Recall@K evaluation
+│   ├── rank.py            # Recall@K
 │   ├── mrr.py             # Mean Reciprocal Rank
 │   ├── ndcg.py            # Normalized Discounted Cumulative Gain
-│   ├── map.py             # Mean Average Precision
-│   └── factory.py         # Evaluator factory
+│   └── map.py             # Mean Average Precision
 ├── configs/                # Configuration files
-│   └── config.yaml        # Main configuration file
-├── scripts/                # Utility scripts
-│   ├── example_dataset_converter.py
-│   └── download_datasets.sh
-├── utils/                  # Utility functions and logging
-└── logs/                   # Log files and outputs
+│   └── config.yaml        # Main configuration
+└── utils/                  # Utilities and logging
 ```
 
 ## 🎯 Supported Models
@@ -63,57 +103,19 @@ look-bench/
 | **CLIP** | Vision Transformer | 224×224 | 512 | PyTorch |
 | **SigLIP** | Vision Transformer | 224×224 | 768 | PyTorch |
 | **DINOv2** | Vision Transformer | 224×224 | 768 | PyTorch |
-
-## 📊 Supported Datasets (BEIR-Style)
-
-LookBench supports multiple fashion retrieval datasets:
-
-- **Fashion200K**: Large-scale fashion retrieval dataset
-- **DeepFashion**: Fashion understanding dataset with attribute prediction
-- **DeepFashion2**: Advanced fashion dataset with detailed annotations
-- **Fashion Product Images**: Product classification and retrieval
-- **Product10K**: Large-scale product retrieval dataset
-
-## 📦 Installation
-
-### Prerequisites
-
-- Python 3.8+
-- CUDA-compatible GPU (recommended)
-- 8GB+ RAM
-
-### Install Dependencies
-
-```bash
-# Clone the repository
-git clone <repository-url>
-cd look-bench
-
-# Install required packages
-pip install -r requirements.txt
-
-# For GPU support (optional)
-pip install torch torchvision --index-url https://download.pytorch.org/whl/cu118
-```
-
-### Environment Setup
-
-The framework automatically configures cache directories for:
-- HuggingFace models and datasets
-- PyTorch models
-- Transformers cache
+| **GR-Lite** | Vision Transformer | 336×336 | 1024 | PyTorch |
 
 ## ⚙️ Configuration
 
-### Basic Configuration
-
-Edit `configs/config.yaml` to configure your models and evaluation settings:
+Edit `configs/config.yaml` to configure models and evaluation settings:
 
 ```yaml
-# Global settings
-global:
-  cache_dir: "~/.cache"
-  log_level: "INFO"
+# Pipeline configuration
+pipeline:
+  name: "evaluation"  # evaluation, feature_extraction
+  model: "clip"
+  dataset: "fashion200k"
+  args: {}
 
 # Model configuration
 clip:
@@ -125,93 +127,55 @@ clip:
 
 # Evaluation settings
 evaluation:
-  metric: "recall"  # recall, mrr, ndcg, map
+  metric: "recall"
   top_k: [1, 5, 10, 20]
   l2norm: true
-
-# Dataset settings
-datasets:
-  fashion200k:
-    data_root: "data/fashion200k"
-    splits:
-      query: "query"
-      gallery: "gallery"
-    parquet_files:
-      query: "query.parquet"
-      gallery: "gallery.parquet"
-  batch_size: 128
-  num_workers: 8
 ```
 
-## 🚀 Usage
+## 📊 Evaluation Metrics
 
-### Quick Start
+LookBench supports multiple evaluation metrics:
+
+- **Recall@K**: Top-K retrieval accuracy (K=1, 5, 10, 20)
+- **MRR**: Mean Reciprocal Rank
+- **NDCG@K**: Normalized Discounted Cumulative Gain
+- **MAP**: Mean Average Precision
+
+### Fine-Grained Evaluation
+
+All metrics are computed with attribute-level matching:
+- **Fine Recall@1**: Requires exact category and all attributes to match
+- **Coarse Recall@1**: Only requires category to match
+- **nDCG@K**: Graded relevance based on attribute overlap
+
+## 🔧 Advanced Usage
+
+### Custom Model Integration
 
 ```python
-from main import LookBench
+from models.base import BaseModel
+from models.registry import register_model
 
-# Initialize benchmark runner
-benchmark = LookBench("configs/config.yaml")
-
-# Run evaluation
-metrics = benchmark.run_evaluation(
-    model_name="clip",
-    dataset_type="fashion200k"
-)
-
-print(f"Recall@1: {metrics['recall@1']:.2f}%")
+@register_model("custom_model", metadata={
+    "description": "Custom fashion embedding model",
+    "framework": "PyTorch",
+    "input_size": 224,
+    "embedding_dim": 512
+})
+class CustomModel(BaseModel):
+    @classmethod
+    def load_model(cls, model_name: str, model_path: str = None):
+        # Load your model
+        model = YourModel()
+        return model, cls()
+    
+    @classmethod
+    def get_transform(cls, input_size: int):
+        # Define preprocessing
+        return your_transform
 ```
 
-### Command Line Usage
-
-```bash
-# Run benchmark with default configuration (evaluation pipeline)
-python main.py
-
-# Run specific model evaluation
-python main.py --model clip --dataset fashion200k
-
-# Run feature extraction pipeline
-python main.py --pipeline feature_extraction --model clip --dataset fashion200k --save-features features.pt
-
-# Use custom config
-python main.py --config configs/custom_config.yaml --model siglip
-
-# List available pipelines
-python -c "from runner import list_available_pipelines; print(list_available_pipelines())"
-```
-
-### Pipeline System
-
-LookBench uses a flexible pipeline system that allows you to run different types of operations:
-
-#### Available Pipelines
-
-- **evaluation**: Standard evaluation pipeline (default)
-  - Runs full evaluation: model loading → feature extraction → evaluation
-- **feature_extraction**: Extract features without evaluation
-  - Useful for extracting features once and reusing them
-
-#### Using Pipelines
-
-```python
-from main import LookBench
-
-benchmark = LookBench("configs/config.yaml")
-
-# Run evaluation pipeline
-metrics = benchmark.run_evaluation(model_name="clip", dataset_type="fashion200k")
-
-# Run feature extraction pipeline
-results = benchmark.run_pipeline(
-    pipeline_name="feature_extraction",
-    model_name="clip",
-    dataset_type="fashion200k",
-    save_path="features.pt"
-)
-```
-
-#### Creating Custom Pipelines
+### Custom Pipeline
 
 ```python
 from runner.base_pipeline import BasePipeline
@@ -221,180 +185,65 @@ from runner.pipeline import register_pipeline
 class CustomPipeline(BasePipeline):
     def get_pipeline_name(self) -> str:
         return "custom_pipeline"
-
-    def run(self, **kwargs) -> Dict[str, Any]:
-        # Your custom pipeline logic
-        return {"result": "custom_output"}
+    
+    def run(self, **kwargs):
+        # Your pipeline logic
+        return results
 ```
 
-### Custom Model Integration
+## 📈 Results
 
-```python
-from models.base import BaseModel
-from models.registry import register_model
+Our GR-Lite model achieves state-of-the-art performance on LookBench:
 
-@register_model("custom_model", metadata={
-    "description": "Custom fashion image embedding model",
-    "framework": "PyTorch",
-    "input_size": 224,
-    "embedding_dim": 512
-})
-class CustomEmbeddingModel(BaseModel):
+| Model | RealStudioFlat | AIGen-Studio | RealStreetLook | AIGen-StreetLook | Overall |
+|-------|----------------|--------------|----------------|------------------|---------|
+| **GR-Lite** | 51.70 | 52.08 | 43.84 | 62.47 | 49.18 |
+| Marqo-FashionSigLIP | 51.86 | 58.53 | 42.43 | 66.27 | 49.44 |
+| SigLIP2-B/16 | 49.12 | 54.97 | 39.35 | 57.83 | 46.10 |
+| CLIP-L/14 | 40.35 | 25.95 | 21.09 | 25.28 | 30.08 |
 
-    @classmethod
-    def load_model(cls, model_name: str, model_path: str = None):
-        # Load your custom model
-        model = YourCustomModel()
-        return model, cls()
+*Fine Recall@1 scores. See [paper](https://arxiv.org/abs/2601.14706) for complete results.*
 
-    @classmethod
-    def get_transform(cls, input_size: int):
-        # Define your preprocessing pipeline
-        return your_transform_pipeline
-```
+## 📄 Citation
 
-### Custom Dataset Integration
+If you use LookBench in your research, please cite:
 
-```python
-from datasets.registry import register_dataset
-
-# Register a new dataset
-register_dataset("my_fashion_dataset", {
-    "description": "My custom fashion dataset",
-    "num_categories": 100,
-    "tasks": ["image_retrieval"],
-    "splits": ["query", "gallery"]
-})
-```
-
-## 📊 Evaluation Metrics
-
-LookBench supports multiple evaluation metrics:
-
-- **Recall@K**: Top-K retrieval accuracy (Recall@1, Recall@5, Recall@10, Recall@20)
-- **MRR**: Mean Reciprocal Rank
-- **NDCG**: Normalized Discounted Cumulative Gain
-- **MAP**: Mean Average Precision
-
-### Feature Analysis
-
-- **L2 Normalization**: Optional feature normalization for fair comparison
-- **Embedding Dimensions**: Configurable output dimensions
-- **Batch Processing**: Optimized for large-scale evaluation
-
-## 🔧 Advanced Usage
-
-### Custom Evaluators
-
-```python
-from metrics.base import BaseEvaluator
-from metrics.factory import register_evaluator
-
-class CustomEvaluator(BaseEvaluator):
-    def get_metric_name(self) -> str:
-        return "CustomMetric"
-
-    def metric_eval(self, sorted_indices, rank_val, query_label, gallery_label):
-        # Implement your custom evaluation logic
-        return score
-
-# Register the evaluator
-register_evaluator("custom", CustomEvaluator)
-```
-
-### Performance Optimization
-
-```python
-# Configure batch processing
-config = {
-    'batch_size': 256,      # Larger batches for GPU
-    'num_workers': 16,      # More workers for I/O
-    'pin_memory': True,     # Faster GPU transfer
-    'drop_last': False      # Keep all samples
+```bibtex
+@article{gao2026lookbench,
+  title={LookBench: A Live and Holistic Open Benchmark for Fashion Image Retrieval}, 
+  author={Chao Gao and Siqiao Xue and Yimin Peng and Jiwen Fu and Tingyi Gu and Shanshan Li and Fan Zhou},
+  year={2026},
+  url={https://arxiv.org/abs/2601.14706}, 
+  journal={arXiv preprint arXiv:2601.14706},
 }
 ```
 
-## 📈 Performance Monitoring
+## 🔗 Links
 
-### Logging Features
-
-- **Structured Logging**: JSON-formatted logs with context
-- **Performance Metrics**: Timing and memory usage tracking
-- **Error Handling**: Comprehensive error logging with context
-- **Progress Tracking**: Real-time progress bars for long operations
-
-## 🐛 Troubleshooting
-
-### Common Issues
-
-1. **CUDA Out of Memory**
-   - Reduce batch size in config
-   - Use gradient checkpointing
-   - Enable mixed precision
-
-2. **Model Loading Errors**
-   - Check model paths in config
-   - Verify model compatibility
-   - Check cache directory permissions
-
-3. **Performance Issues**
-   - Increase num_workers for I/O bound operations
-   - Use pin_memory for GPU operations
-   - Optimize batch size for your hardware
-
-### Debug Mode
-
-```python
-import logging
-logging.basicConfig(level=logging.DEBUG)
-
-# Enable detailed logging
-benchmark = LookBench("configs/config.yaml")
-benchmark.run_evaluation("clip", "fashion200k")
-```
-
-## 🤝 Contributing
-
-### Development Setup
-
-```bash
-# Install development dependencies
-pip install -r requirements.txt
-
-# Code formatting
-black .
-isort .
-
-# Linting
-flake8 .
-mypy .
-```
-
-### Code Style
-
-- Follow PEP 8 guidelines
-- Use type hints
-- Add comprehensive docstrings
-- Include unit tests for new features
+- **Paper**: [https://arxiv.org/abs/2601.14706](https://arxiv.org/abs/2601.14706)
+- **Project Page**: [https://serendipityoneinc.github.io/look-bench-page/](https://serendipityoneinc.github.io/look-bench-page/)
+- **Dataset**: [https://huggingface.co/datasets/srpone/look-bench](https://huggingface.co/datasets/srpone/look-bench)
+- **GR-Lite Model**: [https://huggingface.co/srpone/gr-lite](https://huggingface.co/srpone/gr-lite)
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+The GR-Lite model weights are distributed under the DINOv3 License as they are derived from Meta's DINOv3 model.
+
 ## 🙏 Acknowledgments
 
-- **BEIR**: Inspiration for dataset organization style
-- **HuggingFace Transformers**: Model implementations
+- **BEIR**: Inspiration for benchmark organization
+- **Meta AI**: DINOv3 foundation model
+- **HuggingFace**: Model implementations and hosting
 - **PyTorch**: Deep learning framework
-- Fashion dataset creators and contributors
 
-## 📞 Support
+## 📞 Contact
 
-For questions and support:
-- Create an issue on GitHub
-- Check the documentation
-- Review the configuration examples
+For questions and issues:
+- Create an issue on [GitHub](https://github.com/SerendipityOneInc/look-bench/issues)
+- Visit our [project page](https://serendipityoneinc.github.io/look-bench-page/)
 
 ---
 
-**Note**: LookBench is designed for production use and research purposes. Ensure you have appropriate licenses for any models you use in production environments.
+**LookBench** is designed for research and production use in fashion image retrieval. We welcome contributions and feedback!
