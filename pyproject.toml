@@ -30,6 +30,7 @@ dependencies = [
     "torch>=2.0.0",
     "torchvision>=0.15.0",
     "transformers>=4.30.0",
+    "datasets>=2.14.0",
     "numpy>=1.24.0",
     "pandas>=2.0.0",
     "pyarrow>=12.0.0",
@@ -48,6 +49,9 @@ dev = [
 advanced = [
     "timm>=0.9.0",
     "open-clip-torch>=2.20.0",
+]
+examples = [
+    "matplotlib>=3.5.0",
 ]
 
 [project.urls]
