@@ -1,0 +1,64 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "look-bench"
+version = "0.2.0"
+description = "A live, holistic, and challenging benchmark for fashion image retrieval in real e-commerce settings"
+readme = "README.md"
+requires-python = ">=3.8"
+license = "Apache-2.0"
+authors = [
+    {name = "LookBench Team"}
+]
+keywords = ["fashion", "image-retrieval", "benchmark", "evaluation", "computer-vision"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+dependencies = [
+    "torch>=2.0.0",
+    "torchvision>=0.15.0",
+    "transformers>=4.30.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "pyarrow>=12.0.0",
+    "Pillow>=9.5.0",
+    "PyYAML>=6.0",
+    "tqdm>=4.65.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.3.0",
+    "black>=23.3.0",
+    "flake8>=6.0.0",
+    "mypy>=1.3.0",
+]
+advanced = [
+    "timm>=0.9.0",
+    "open-clip-torch>=2.20.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/SerendipityOneInc/look-bench"
+Documentation = "https://serendipityoneinc.github.io/look-bench-page/"
+Repository = "https://github.com/SerendipityOneInc/look-bench"
+"Bug Tracker" = "https://github.com/SerendipityOneInc/look-bench/issues"
+
+[tool.setuptools]
+# Auto-discover packages
+packages = {find = {}}
+
+[tool.setuptools.package-data]
+"*" = ["*.yaml", "*.yml"]
