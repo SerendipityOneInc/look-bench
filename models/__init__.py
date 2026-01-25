@@ -17,7 +17,7 @@ from .base import BaseModel, BaseModelWrapper
 # Import model implementations to register them
 # These imports trigger the @register_model decorators
 try:
-    from . import clip_model, siglip_model, dinov2_model
+    from . import clip_model, siglip_model, dinov2_model, grlite_model
 except ImportError:
     # Models may not be available in all environments
     pass

@@ -119,6 +119,15 @@ dinov2:
   embedding_dim: 768
   device: "cuda"
 
+# GR-Lite - Fashion Image Search Model
+gr-lite:
+  enabled: true
+  model_name: "srpone/gr-lite"
+  model_path: null
+  input_size: 518
+  embedding_dim: 256
+  device: "cuda"
+
 # Example of custom model configuration
 custom_model:
   enabled: false

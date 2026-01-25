@@ -13,6 +13,13 @@ from .logging import (
     TimerContext
 )
 
+from .hf_loader import (
+    load_lookbench_dataset,
+    load_all_lookbench_configs,
+    get_available_configs,
+    get_config_info
+)
+
 __all__ = [
     'get_logger',
     'log_structured',
@@ -20,5 +27,9 @@ __all__ = [
     'log_error_with_context',
     'setup_logging',
     'configure_logging',
-    'TimerContext'
+    'TimerContext',
+    'load_lookbench_dataset',
+    'load_all_lookbench_configs',
+    'get_available_configs',
+    'get_config_info'
 ]

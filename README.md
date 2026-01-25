@@ -38,34 +38,65 @@ LookBench addresses the limitations of existing fashion retrieval benchmarks by 
 
 ### Installation
 
+**Option 1: Install from PyPI (Recommended)**
+
+```bash
+pip install look-bench
+```
+
+**Option 2: Install from Source**
+
 ```bash
 # Clone the repository
 git clone https://github.com/SerendipityOneInc/look-bench.git
 cd look-bench
 
-# Install dependencies
+# Install in development mode
+pip install -e .
+
+# Or install dependencies only
 pip install -r requirements.txt
+```
+
+**Optional: Install with Examples Support**
+
+For running example notebooks and scripts that require matplotlib:
+
+```bash
+pip install look-bench[examples]
 ```
 
 ### Load Dataset from Hugging Face
 
 The LookBench dataset is hosted on Hugging Face and can be loaded directly:
 
+**Option 1: Using look-bench utility (Recommended)**
+
+```python
+from look_bench.utils import load_lookbench_dataset
+
+# Load a specific config
+dataset = load_lookbench_dataset("real_studio_flat")
+
+# Access query and gallery splits
+query_data = dataset['query']
+gallery_data = dataset['gallery']
+
+print(f"Query samples: {len(query_data)}")
+print(f"Gallery samples: {len(gallery_data)}")
+```
+
+**Option 2: Using Hugging Face datasets directly**
+
 ```python
 from datasets import load_dataset
 
-# Load the entire LookBench dataset
-dataset = load_dataset("srpone/look-bench")
+# Load a specific config
+dataset = load_dataset("srpone/look-bench", "real_studio_flat")
 
-# Access different subsets
-real_studio = dataset['real_studio_flat']  # Easy: single-item retrieval
-aigen_studio = dataset['aigen_studio']     # Medium: AI-generated studio images
-real_street = dataset['real_streetlook']   # Hard: multi-item outfit retrieval
-aigen_street = dataset['aigen_streetlook'] # Hard: AI-generated street looks
-
-# Each subset has query and gallery splits
-query_data = dataset['real_studio_flat']['query']
-gallery_data = dataset['real_studio_flat']['gallery']
+# Access query and gallery splits
+query_data = dataset['query']
+gallery_data = dataset['gallery']
 
 print(f"Query samples: {len(query_data)}")
 print(f"Gallery samples: {len(gallery_data)}")
@@ -123,13 +154,15 @@ We provide both **Python scripts** and **Google Colab notebooks** for easy exper
 
 #### 🐍 Python Scripts (Run Locally)
 
-- **[examples/01_quickstart.py](examples/01_quickstart.py)** - Basic usage and dataset exploration
+- **[examples/00_data_exploration.py](examples/00_data_exploration.py)** - Dataset exploration and statistics
+- **[examples/01_load_grlite_model.py](examples/01_load_grlite_model.py)** - Load and test GR-Lite model
 - **[examples/02_model_evaluation.py](examples/02_model_evaluation.py)** - Complete model evaluation pipeline
 - **[examples/03_custom_model.py](examples/03_custom_model.py)** - Integrate your own custom models
 
 ```bash
 # Run examples locally
-python examples/01_quickstart.py
+python examples/00_data_exploration.py
+python examples/01_load_grlite_model.py
 python examples/02_model_evaluation.py
 python examples/03_custom_model.py
 ```
