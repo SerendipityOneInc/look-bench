@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "look-bench"
-version = "0.2.0"
+version = "0.3.0"
 description = "A live, holistic, and challenging benchmark for fashion image retrieval in real e-commerce settings"
 readme = "README.md"
 requires-python = ">=3.8"

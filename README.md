@@ -1,7 +1,6 @@
 # LookBench: A Live and Holistic Open Benchmark for Fashion Image Retrieval
 
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/downloads/)
-[![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-red.svg)](https://pytorch.org/)
 [![PyPI](https://img.shields.io/pypi/dm/look-bench?label=PyPI%20downloads)](https://pypi.org/project/look-bench/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![arXiv](https://img.shields.io/badge/arXiv-2601.14706-b31b1b.svg)](https://arxiv.org/abs/2601.14706)
@@ -13,9 +12,9 @@
 
 ## 📰 News
 
-- **[2026-01]** LookBench paper released on arXiv
-- **[2026-01]** GR-Lite open-source model released
-- **[2026-01]** Initial benchmark dataset released
+- **[2026-01]** [LookBench](https://arxiv.org/abs/2601.14706) paper released on arXiv
+- **[2026-01]** [GR-Lite](https://huggingface.co/srpone/gr-lite) open-source model released
+- **[2026-01]** [Initial benchmark dataset](https://huggingface.co/datasets/srpone/look-bench) released
 
 ## 📖 Overview
 
