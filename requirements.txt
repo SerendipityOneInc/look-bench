@@ -1,7 +1,7 @@
 # Core Dependencies
 torch>=2.0.0
 torchvision>=0.15.0
-transformers>=4.30.0
+transformers>=4.49.0  # SigLIP2 support requires >=4.49
 datasets>=2.14.0
 numpy>=1.24.0
 pandas>=2.0.0
@@ -19,4 +19,3 @@ tqdm>=4.65.0
 # black>=23.3.0
 # flake8>=6.0.0
 # mypy>=1.3.0
-

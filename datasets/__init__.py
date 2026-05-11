@@ -12,6 +12,12 @@ from .registry import (
     get_dataset,
     list_available_datasets
 )
+from .zooclaw_dataset import (
+    ZooClawImageDataset,
+    ZooClawTextDataset,
+    load_zooclaw_task,
+    load_zooclaw_dataset,
+)
 
 __all__ = [
     'BaseDataset',
@@ -20,6 +26,10 @@ __all__ = [
     'registry',
     'register_dataset',
     'get_dataset',
-    'list_available_datasets'
+    'list_available_datasets',
+    'ZooClawImageDataset',
+    'ZooClawTextDataset',
+    'load_zooclaw_task',
+    'load_zooclaw_dataset',
 ]
 
