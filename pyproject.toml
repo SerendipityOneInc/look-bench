@@ -29,7 +29,7 @@ classifiers = [
 dependencies = [
     "torch>=2.0.0",
     "torchvision>=0.15.0",
-    "transformers>=4.30.0",
+    "transformers>=4.49.0",
     "datasets>=2.14.0",
     "numpy>=1.24.0",
     "pandas>=2.0.0",
@@ -61,7 +61,6 @@ Repository = "https://github.com/SerendipityOneInc/look-bench"
 "Bug Tracker" = "https://github.com/SerendipityOneInc/look-bench/issues"
 
 [tool.setuptools]
-# Auto-discover packages
 packages = {find = {}}
 
 [tool.setuptools.package-data]
