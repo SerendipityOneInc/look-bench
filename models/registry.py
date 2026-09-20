@@ -3,11 +3,15 @@ Model Registry for LookBench
 Fashion Image Retrieval Benchmark
 """
 
-from typing import Dict, Type, Any, Optional, List
+from typing import Dict, Type, Any, Optional, List, Union
 from abc import ABC
 from utils.logging import get_logger, log_structured
 import logging
 from .base import BaseModel
+from .reranker_base import BaseReranker
+
+# The registry hosts both task families: retrieval models and rerankers.
+Registrable = Union[Type['BaseModel'], Type['BaseReranker']]
 
 logger = get_logger(__name__)
 
@@ -15,7 +19,7 @@ logger = get_logger(__name__)
 class ModelRegistry:
     """Professional model registry for managing all LookBench model types"""
 
-    _models: Dict[str, Type['BaseModel']] = {}
+    _models: Dict[str, 'Registrable'] = {}
     _metadata: Dict[str, Dict[str, Any]] = {}
 
     @classmethod
@@ -27,9 +31,12 @@ class ModelRegistry:
             name: Unique identifier for the model
             metadata: Optional metadata about the model
         """
-        def decorator(model_class: Type['BaseModel']):
-            if not issubclass(model_class, ABC):
-                raise TypeError(f"Model class {model_class.__name__} must inherit from BaseModel")
+        def decorator(model_class: 'Registrable'):
+            if not issubclass(model_class, (BaseModel, BaseReranker)):
+                raise TypeError(
+                    f"Model class {model_class.__name__} must inherit from "
+                    "BaseModel (retrieval) or BaseReranker (reranking)"
+                )
 
             if name in cls._models:
                 log_structured(logger, logging.WARNING, "Model already registered, overwriting",
@@ -49,7 +56,7 @@ class ModelRegistry:
         return decorator
 
     @classmethod
-    def get_model(cls, name: str) -> Type['BaseModel']:
+    def get_model(cls, name: str) -> 'Registrable':
         """
         Get a registered model class by name
 
@@ -132,7 +139,7 @@ def register_model(name: str, metadata: Optional[Dict[str, Any]] = None):
     """Convenience function to register a model"""
     return registry.register(name, metadata)
 
-def get_model(name: str) -> Type['BaseModel']:
+def get_model(name: str) -> 'Registrable':
     """Convenience function to get a model"""
     return registry.get_model(name)
 
