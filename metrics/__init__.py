@@ -15,6 +15,8 @@ from .rank import RankEvaluator
 from .mrr import MRREvaluator
 from .ndcg import NDCGEvaluator
 from .map import MAPEvaluator
+from .pairwise import PairwiseAccuracyEvaluator
+from . import significance
 
 __all__ = [
     'BaseEvaluator',
@@ -25,6 +27,8 @@ __all__ = [
     'RankEvaluator',
     'MRREvaluator',
     'NDCGEvaluator',
-    'MAPEvaluator'
+    'MAPEvaluator',
+    'PairwiseAccuracyEvaluator',
+    'significance'
 ]
 

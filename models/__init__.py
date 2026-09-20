@@ -13,6 +13,7 @@ from .registry import (
 )
 from .factory import ModelFactory
 from .base import BaseModel, BaseModelWrapper
+from .reranker_base import BaseReranker
 
 # Import model implementations to register them
 # These imports trigger the @register_model decorators
@@ -31,6 +32,7 @@ __all__ = [
     'is_model_registered',
     'ModelFactory',
     'BaseModel',
-    'BaseModelWrapper'
+    'BaseModelWrapper',
+    'BaseReranker'
 ]
 
