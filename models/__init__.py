@@ -19,6 +19,7 @@ from .reranker_base import BaseReranker
 # These imports trigger the @register_model decorators
 try:
     from . import clip_model, siglip_model, dinov2_model, grlite_model
+    from . import qwen3_reranker
 except ImportError:
     # Models may not be available in all environments
     pass

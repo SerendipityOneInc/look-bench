@@ -12,6 +12,7 @@ from .registry import (
     get_dataset,
     list_available_datasets
 )
+from .shoprank_dataset import ShopRankPairs, TIERS as SHOPRANK_TIERS
 from .zooclaw_dataset import (
     ZooClawImageDataset,
     ZooClawTextDataset,
@@ -31,5 +32,7 @@ __all__ = [
     'ZooClawTextDataset',
     'load_zooclaw_task',
     'load_zooclaw_dataset',
+    'ShopRankPairs',
+    'SHOPRANK_TIERS',
 ]
 
