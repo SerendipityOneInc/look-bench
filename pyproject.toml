@@ -53,6 +53,9 @@ advanced = [
 examples = [
     "matplotlib>=3.5.0",
 ]
+reranking = [
+    "peft>=0.10.0",
+]
 
 [project.urls]
 Homepage = "https://github.com/SerendipityOneInc/look-bench"
