@@ -34,6 +34,44 @@ LookBench addresses the limitations of existing fashion retrieval benchmarks by 
 | **RealStreetLook** | Real street outfit photos | Multi | Hard | 1,000 / 61,553 |
 | **AIGen-StreetLook** | AI-generated street outfit compositions | Multi | Hard | 160 / 58,846 |
 
+### Reranking Track: ShopRank-Bench
+
+LookBench also hosts a **text reranking** track. Where the retrieval track ranks a gallery
+against a query image, the reranking track asks a cross-encoder which of two candidate
+products a shopper would prefer.
+
+**ShopRank-Bench** is a contamination-limited e-commerce preference benchmark: 10,511 pairs
+over 2,991 queries drawn from live shopping traffic, labelled by a cross-family LLM judge
+panel and tiered by how many families committed a verdict (1,843 gold / 4,445 silver /
+4,223 bronze). Every pair ships in two formats — the canonical structured attribute schema
+and a natural-language rendering — carrying the same label, so a per-format accuracy gap
+measures sensitivity to serialization rather than a difference in labels.
+
+| Track | Task | Metric | Size |
+|-------|------|--------|------|
+| Image retrieval | query image → gallery | Recall@K, MRR, NDCG, MAP | 4 subsets |
+| **ShopRank-Bench** | query + two candidates → preferred | Pairwise accuracy, by tier | 10,511 pairs / 2,991 queries |
+
+- 🤗 Dataset: `srpone/shoprank-bench` _(release pending)_
+- 🤗 Models: [ZooWork-ShopRanker (0.6B / 4B / 8B)](https://huggingface.co/collections/srpone/rerankers-in-e-commerce-69c4a9acb3eb3f8284d6c0c8)
+
+```python
+from datasets import ShopRankPairs
+from models import get_model
+from metrics import PairwiseAccuracyEvaluator
+
+# from_hub() once the dataset is published; from_jsonl() for a local release file
+pairs = ShopRankPairs.from_jsonl("shoprank_bench.jsonl", text_format="structured")
+_, reranker = get_model("qwen3-reranker").load_model(
+    "Qwen/Qwen3-Reranker-4B", model_path="srpone/zoowork-shopranker-4b")
+
+results = PairwiseAccuracyEvaluator().evaluate_reranker(
+    reranker, list(pairs), preferred_key="preferred", rejected_key="rejected")
+print(results["pairwise_accuracy"], results["pairwise_accuracy_gold"])
+```
+
+Reranking needs one extra dependency: `pip install look-bench[reranking]`.
+
 ## 🚀 Quick Start
 
 ### Installation
@@ -207,6 +245,13 @@ look-bench/
 | **SigLIP** | Vision Transformer | 224×224 | 768 | PyTorch |
 | **DINOv2** | Vision Transformer | 224×224 | 768 | PyTorch |
 | **GR-Lite** | Vision Transformer | 336×336 | 1024 | PyTorch |
+
+Reranking models score a (query, candidate) pair directly rather than producing an
+embedding, so they register through `BaseReranker` instead of `BaseModel`:
+
+| Model | Architecture | Scoring | Adapter |
+|-------|--------------|---------|---------|
+| **Qwen3-Reranker** | Causal LM cross-encoder | P("yes") vs P("no") at final position | optional LoRA |
 
 ## ⚙️ Configuration
 
