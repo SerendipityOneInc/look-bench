@@ -111,7 +111,7 @@ class ShopRankPairs:
     @classmethod
     def from_hub(
         cls,
-        repo_id: str = "srpone/shoprank-bench",
+        repo_id: str = "srpone/zoowork-shoprank-bench",
         split: str = "preference",
         text_format: str = "structured",
         token: Optional[str] = None,
