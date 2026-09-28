@@ -55,7 +55,7 @@ measures sensitivity to serialization rather than a difference in labels.
 | Image retrieval | query image → gallery | Recall@K, MRR, NDCG, MAP | 4 subsets |
 | **ShopRank-Bench** | query + two candidates → preferred | Pairwise accuracy, by tier | 10,511 pairs / 2,991 queries |
 
-- 🤗 Dataset: [srpone/zoowork-shoprank-bench](https://huggingface.co/datasets/srpone/zoowork-shoprank-bench) _(release pending)_
+- 🤗 Dataset: [srpone/zoowork-shoprank-bench](https://huggingface.co/datasets/srpone/zoowork-shoprank-bench)
 - 📄 Paper: [ZooWork-ShopRanker: An Open, Preference-Aligned E-Commerce Reranker](https://arxiv.org/abs/2609.31002)
 - 🤗 Models: [ZooWork-ShopRanker (0.6B / 4B / 8B)](https://huggingface.co/collections/srpone/rerankers-in-e-commerce-69c4a9acb3eb3f8284d6c0c8)
 - 🏆 Leaderboard: [ShopRank-Bench track page](https://serendipityoneinc.github.io/look-bench-page/shoprank-bench.html)
