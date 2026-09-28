@@ -9,6 +9,7 @@
 [![Model](https://img.shields.io/badge/🤗-GR--Lite-orange.svg)](https://huggingface.co/srpone/gr-lite)
 [![arXiv](https://img.shields.io/badge/arXiv-2609.31002-b31b1b.svg)](https://arxiv.org/abs/2609.31002)
 [![Models](https://img.shields.io/badge/🤗-ZooWork--ShopRanker-orange.svg)](https://huggingface.co/collections/srpone/rerankers-in-e-commerce-69c4a9acb3eb3f8284d6c0c8)
+[![ZooWork](https://img.shields.io/badge/ZooWork-zoowork.ai-ff6a00)](https://zoowork.ai/)
 
 **LookBench** is a live, holistic, and challenging benchmark for fashion image retrieval in real e-commerce settings. This repository provides the official evaluation code and model implementations.
 
@@ -59,6 +60,7 @@ measures sensitivity to serialization rather than a difference in labels.
 - 📄 Paper: [ZooWork-ShopRanker: An Open, Preference-Aligned E-Commerce Reranker](https://arxiv.org/abs/2609.31002)
 - 🤗 Models: [ZooWork-ShopRanker (0.6B / 4B / 8B)](https://huggingface.co/collections/srpone/rerankers-in-e-commerce-69c4a9acb3eb3f8284d6c0c8)
 - 🏆 Leaderboard: [ShopRank-Bench track page](https://serendipityoneinc.github.io/look-bench-page/shoprank-bench.html)
+- 🌐 ZooWork: [zoowork.ai](https://zoowork.ai/)
 
 ```python
 from datasets import ShopRankPairs
