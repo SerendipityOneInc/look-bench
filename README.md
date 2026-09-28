@@ -7,11 +7,14 @@
 [![Project Page](https://img.shields.io/badge/Project-Page-green.svg)](https://serendipityoneinc.github.io/look-bench-page/)
 [![Dataset](https://img.shields.io/badge/🤗-Dataset-yellow.svg)](https://huggingface.co/datasets/srpone/look-bench)
 [![Model](https://img.shields.io/badge/🤗-GR--Lite-orange.svg)](https://huggingface.co/srpone/gr-lite)
+[![arXiv](https://img.shields.io/badge/arXiv-2609.31002-b31b1b.svg)](https://arxiv.org/abs/2609.31002)
+[![Models](https://img.shields.io/badge/🤗-ZooWork--ShopRanker-orange.svg)](https://huggingface.co/collections/srpone/rerankers-in-e-commerce-69c4a9acb3eb3f8284d6c0c8)
 
 **LookBench** is a live, holistic, and challenging benchmark for fashion image retrieval in real e-commerce settings. This repository provides the official evaluation code and model implementations.
 
 ## 📰 News
 
+- **[2026-09]** New [ShopRank-Bench](https://serendipityoneinc.github.io/look-bench-page/shoprank-bench.html) reranking track and the [ZooWork-ShopRanker](https://huggingface.co/collections/srpone/rerankers-in-e-commerce-69c4a9acb3eb3f8284d6c0c8) reranker family (0.6B / 4B / 8B) — [paper](https://arxiv.org/abs/2609.31002) released on arXiv
 - **[2026-01]** [LookBench](https://arxiv.org/abs/2601.14706) paper released on arXiv
 - **[2026-01]** [GR-Lite](https://huggingface.co/srpone/gr-lite) open-source model released
 - **[2026-01]** [Initial benchmark dataset](https://huggingface.co/datasets/srpone/look-bench) released
@@ -53,7 +56,9 @@ measures sensitivity to serialization rather than a difference in labels.
 | **ShopRank-Bench** | query + two candidates → preferred | Pairwise accuracy, by tier | 10,511 pairs / 2,991 queries |
 
 - 🤗 Dataset: [srpone/zoowork-shoprank-bench](https://huggingface.co/datasets/srpone/zoowork-shoprank-bench) _(release pending)_
+- 📄 Paper: [ZooWork-ShopRanker: An Open, Preference-Aligned E-Commerce Reranker](https://arxiv.org/abs/2609.31002)
 - 🤗 Models: [ZooWork-ShopRanker (0.6B / 4B / 8B)](https://huggingface.co/collections/srpone/rerankers-in-e-commerce-69c4a9acb3eb3f8284d6c0c8)
+- 🏆 Leaderboard: [ShopRank-Bench track page](https://serendipityoneinc.github.io/look-bench-page/shoprank-bench.html)
 
 ```python
 from datasets import ShopRankPairs
@@ -439,6 +444,18 @@ If you use LookBench in your research, please cite:
   year={2026},
   url={https://arxiv.org/abs/2601.14706}, 
   journal={arXiv preprint arXiv:2601.14706},
+}
+```
+
+If you use the ShopRank-Bench reranking track or the ZooWork-ShopRanker models, please also cite:
+
+```bibtex
+@article{xue2026zooworkshopranker,
+  title   = {ZooWork-ShopRanker: An Open, Preference-Aligned E-Commerce Reranker},
+  author  = {Xue, Siqiao and Liu, Shuxuan and Hu, Ning},
+  journal = {arXiv preprint arXiv:2609.31002},
+  year    = {2026},
+  url     = {https://arxiv.org/abs/2609.31002}
 }
 ```
 
