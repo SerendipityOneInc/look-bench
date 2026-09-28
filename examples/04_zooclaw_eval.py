@@ -44,10 +44,10 @@ def _load_module(name, filepath):
     return mod
 
 
-_zooclaw_ds = _load_module("zooclaw_dataset", os.path.join(_root, "datasets", "zooclaw_dataset.py"))
+_zooclaw_ds = _load_module("zooclaw_dataset", os.path.join(_root, "look_bench", "data", "zooclaw_dataset.py"))
 load_zooclaw_dataset = _zooclaw_ds.load_zooclaw_dataset
 
-_mm_eval = _load_module("multimodal_evaluator", os.path.join(_root, "runner", "multimodal_evaluator.py"))
+_mm_eval = _load_module("multimodal_evaluator", os.path.join(_root, "look_bench", "runner", "multimodal_evaluator.py"))
 evaluate_zooclaw_task = _mm_eval.evaluate_zooclaw_task
 
 

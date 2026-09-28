@@ -12,8 +12,8 @@ import numpy as np
 import sys
 sys.path.append('..')
 
-from models.base import BaseModel
-from models.registry import register_model, list_available_models
+from look_bench.models.base import BaseModel
+from look_bench.models.registry import register_model, list_available_models
 
 
 # Example 1: Simple ResNet-based Model
@@ -194,7 +194,7 @@ def test_custom_model():
     print("="*60)
     
     print("\nNext steps:")
-    print("  1. Add your model configuration to configs/config.yaml:")
+    print("  1. Add your model configuration to look_bench/configs/config.yaml:")
     print("     ```yaml")
     print("     resnet50:")
     print("       enabled: true")

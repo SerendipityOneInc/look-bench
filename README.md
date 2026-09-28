@@ -63,9 +63,9 @@ measures sensitivity to serialization rather than a difference in labels.
 - 🌐 ZooWork: [zoowork.ai](https://zoowork.ai/)
 
 ```python
-from datasets import ShopRankPairs
-from models import get_model
-from metrics import PairwiseAccuracyEvaluator
+from look_bench.data import ShopRankPairs
+from look_bench.models import get_model
+from look_bench.metrics import PairwiseAccuracyEvaluator
 
 # or ShopRankPairs.from_jsonl("preference.jsonl", ...) for a local copy of the release file
 pairs = ShopRankPairs.from_hub(text_format="structured")
@@ -87,8 +87,13 @@ Reranking needs one extra dependency: `pip install look-bench[reranking]`.
 **Option 1: Install from PyPI (Recommended)**
 
 ```bash
-pip install look-bench
+pip install "look-bench>=0.4.0"            # retrieval
+pip install "look-bench[reranking]>=0.4.0" # + ShopRank-Bench rerankers (peft)
 ```
+
+> Use 0.4.0 or later. Releases up to 0.3.0 installed top-level `datasets`, `models`,
+> `metrics` and `utils` packages that overwrote Hugging Face `datasets`; everything now
+> lives under the `look_bench` package (`from look_bench.data import ...`).
 
 **Option 2: Install from Source**
 
@@ -152,10 +157,10 @@ print(f"Gallery samples: {len(gallery_data)}")
 
 ```python
 import torch
-from manager import ConfigManager, ModelManager
+from look_bench.manager import ConfigManager, ModelManager
 
 # Load model
-config_manager = ConfigManager('configs/config.yaml')
+config_manager = ConfigManager()  # packaged look_bench/configs/config.yaml
 model_manager = ModelManager(config_manager)
 
 model, _ = model_manager.load_model('clip')
@@ -178,14 +183,16 @@ print(f"Feature shape: {features.shape}")
 ### Run Full Evaluation
 
 ```bash
-# Run evaluation with default configuration
-python main.py
+# Run evaluation with the packaged default configuration
+look-bench
 
-# Run with specific model
-python main.py --pipeline evaluation --model clip
+# Run a specific pipeline
+look-bench --pipeline evaluation
 
-# Use custom configuration
-python main.py --config configs/config.yaml
+# Use your own configuration (start from look_bench/configs/config.yaml)
+look-bench --config my_config.yaml
+
+# From a source checkout, `python main.py ...` is equivalent
 ```
 
 ### Example Scripts & Notebooks
@@ -217,32 +224,33 @@ python examples/03_custom_model.py
 
 ```
 look-bench/
-├── main.py                 # Main entry point (config-driven)
-├── manager.py              # Configuration, model, and data managers
-├── runner/                 # Pipeline execution framework
-│   ├── base_pipeline.py   # Base pipeline class
-│   ├── evaluator.py       # Core evaluation logic
-│   ├── pipeline.py        # Pipeline registry
-│   ├── evaluation_pipeline.py      # Standard evaluation pipeline
-│   └── feature_extraction_pipeline.py  # Feature extraction pipeline
-├── models/                 # Model implementations and registry
-│   ├── base.py            # Base model interface
-│   ├── registry.py        # Model registration system
-│   ├── factory.py         # Model factory
-│   ├── clip_model.py      # CLIP model
-│   ├── siglip_model.py    # SigLIP model
-│   └── dinov2_model.py    # DINOv2 model
-├── datasets/               # Dataset loading (BEIR-style)
-│   ├── base.py            # Base dataset implementation
-│   └── registry.py        # Dataset registry
-├── metrics/                # Evaluation metrics
-│   ├── rank.py            # Recall@K
-│   ├── mrr.py             # Mean Reciprocal Rank
-│   ├── ndcg.py            # Normalized Discounted Cumulative Gain
-│   └── map.py             # Mean Average Precision
-├── configs/                # Configuration files
-│   └── config.yaml        # Main configuration
-└── utils/                  # Utilities and logging
+├── main.py                     # Source-checkout entry point (= `look-bench` command)
+└── look_bench/                 # The installed package
+    ├── main.py                 # CLI (config-driven)
+    ├── manager.py              # Configuration, model, and data managers; DEFAULT_CONFIG
+    ├── configs/config.yaml     # Packaged default configuration
+    ├── runner/                 # Pipeline execution framework
+    │   ├── base_pipeline.py    # Base pipeline class
+    │   ├── evaluator.py        # Core evaluation logic
+    │   ├── pipeline.py         # Pipeline registry
+    │   ├── evaluation_pipeline.py          # Standard evaluation pipeline
+    │   └── feature_extraction_pipeline.py  # Feature extraction pipeline
+    ├── models/                 # Model implementations and registry
+    │   ├── base.py             # Base (embedding) model interface
+    │   ├── reranker_base.py    # Base reranker interface
+    │   ├── registry.py         # Model registration system
+    │   ├── factory.py          # Model factory
+    │   ├── clip_model.py / siglip_model.py / dinov2_model.py / grlite_model.py
+    │   └── qwen3_reranker.py   # Qwen3-Reranker (optional LoRA)
+    ├── data/                   # Dataset loading (BEIR-style) and ShopRank-Bench pairs
+    │   ├── base.py             # Base dataset implementation
+    │   ├── registry.py         # Dataset registry
+    │   └── shoprank_dataset.py # ShopRankPairs
+    ├── metrics/                # Evaluation metrics
+    │   ├── rank.py / mrr.py / ndcg.py / map.py
+    │   ├── pairwise.py         # Pairwise accuracy (reranking)
+    │   └── significance.py     # Paired tests
+    └── utils/                  # Utilities and logging
 ```
 
 ## 🎯 Supported Models
@@ -263,7 +271,7 @@ embedding, so they register through `BaseReranker` instead of `BaseModel`:
 
 ## ⚙️ Configuration
 
-Edit `configs/config.yaml` to configure models and evaluation settings:
+Edit `look_bench/configs/config.yaml` to configure models and evaluation settings:
 
 ```yaml
 # Pipeline configuration
@@ -311,8 +319,8 @@ All metrics are computed with attribute-level matching:
 LookBench makes it easy to integrate your own models using the registry pattern. Here's a quick example:
 
 ```python
-from models.base import BaseModel
-from models.registry import register_model
+from look_bench.models.base import BaseModel
+from look_bench.models.registry import register_model
 import torch.nn as nn
 from torchvision import models, transforms
 
@@ -348,7 +356,7 @@ class ResNet50Model(BaseModel):
         ])
 ```
 
-Then add your model to `configs/config.yaml`:
+Then add your model to `look_bench/configs/config.yaml`:
 
 ```yaml
 resnet50:
@@ -367,8 +375,8 @@ resnet50:
 Create custom evaluation pipelines:
 
 ```python
-from runner.base_pipeline import BasePipeline
-from runner.pipeline import register_pipeline
+from look_bench.runner.base_pipeline import BasePipeline
+from look_bench.runner.pipeline import register_pipeline
 
 @register_pipeline("custom_pipeline")
 class CustomPipeline(BasePipeline):
