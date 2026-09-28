@@ -65,10 +65,11 @@ from datasets import ShopRankPairs
 from models import get_model
 from metrics import PairwiseAccuracyEvaluator
 
-# from_hub() once the dataset is published; from_jsonl() for a local release file
-pairs = ShopRankPairs.from_jsonl("shoprank_bench.jsonl", text_format="structured")
+# or ShopRankPairs.from_jsonl("preference.jsonl", ...) for a local copy of the release file
+pairs = ShopRankPairs.from_hub(text_format="structured")
+# Each ZooWork-ShopRanker repo holds the base weights and the LoRA adapter
 _, reranker = get_model("qwen3-reranker").load_model(
-    "Qwen/Qwen3-Reranker-4B", model_path="srpone/zoowork-shopranker-4b")
+    "srpone/zoowork-shopranker-4b", model_path="srpone/zoowork-shopranker-4b")
 
 results = PairwiseAccuracyEvaluator().evaluate_reranker(
     reranker, list(pairs), preferred_key="preferred", rejected_key="rejected")
