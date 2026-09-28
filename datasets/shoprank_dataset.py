@@ -119,19 +119,24 @@ class ShopRankPairs:
         """
         Load from the Hugging Face Hub.
 
+        Downloads the track's JSONL release file directly. Hugging Face
+        ``datasets`` is deliberately not used: this package's own ``datasets``
+        module shadows it, and the release exposes each track as a config
+        (``preference``, ``ahp``, ``budget``) rather than as a split.
+
         Args:
             repo_id: Dataset repo id
-            split: Track to load
+            split: Track to load (``preference``, ``ahp`` or ``budget``)
             text_format: ``structured`` or ``natural``
             token: Access token, for a gated or private release
 
         Returns:
             A loaded dataset
         """
-        from datasets import load_dataset
+        from huggingface_hub import hf_hub_download
 
-        data = load_dataset(repo_id, split=split, token=token)
-        return cls([dict(row) for row in data], text_format=text_format)
+        path = hf_hub_download(repo_id, f"{split}.jsonl", repo_type="dataset", token=token)
+        return cls.from_jsonl(path, text_format=text_format, track=None)
 
     @staticmethod
     def _filter(records: Sequence[Dict[str, Any]], track: Optional[str]) -> List[Dict[str, Any]]:
