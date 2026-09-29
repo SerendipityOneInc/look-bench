@@ -10,7 +10,7 @@ import sys
 sys.path.append('..')
 
 # Use look-bench's dataset loader to avoid import conflicts
-from utils.hf_loader import load_lookbench_dataset
+from look_bench.utils.hf_loader import load_lookbench_dataset
 
 
 def main():

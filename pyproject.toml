@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "look-bench"
-version = "0.3.0"
+version = "0.4.0"
 description = "A live, holistic, and challenging benchmark for fashion image retrieval in real e-commerce settings"
 readme = "README.md"
 requires-python = ">=3.8"
@@ -63,8 +63,13 @@ Documentation = "https://serendipityoneinc.github.io/look-bench-page/"
 Repository = "https://github.com/SerendipityOneInc/look-bench"
 "Bug Tracker" = "https://github.com/SerendipityOneInc/look-bench/issues"
 
-[tool.setuptools]
-packages = {find = {}}
+[project.scripts]
+look-bench = "look_bench.main:main"
+
+[tool.setuptools.packages.find]
+# Only the look_bench package: shipping top-level datasets/models/metrics/utils packages
+# (as <= 0.3.0 did) overwrote Hugging Face `datasets` in site-packages.
+include = ["look_bench*"]
 
 [tool.setuptools.package-data]
-"*" = ["*.yaml", "*.yml"]
+look_bench = ["configs/*.yaml", "configs/*.yml"]

@@ -11,8 +11,8 @@ from tqdm import tqdm
 import sys
 sys.path.append('..')
 
-from manager import ConfigManager, ModelManager
-from metrics import RankEvaluator, MRREvaluator, NDCGEvaluator, MAPEvaluator
+from look_bench.manager import ConfigManager, ModelManager
+from look_bench.metrics import RankEvaluator, MRREvaluator, NDCGEvaluator, MAPEvaluator
 
 
 def extract_features_from_dataset(data, model, transform, batch_size=32):
@@ -69,7 +69,7 @@ def evaluate_model(model_name='clip', subset_name='real_studio_flat'):
     
     # Load model
     print(f"\n[2/5] Loading {model_name} model...")
-    config_manager = ConfigManager('../configs/config.yaml')
+    config_manager = ConfigManager()  # packaged look_bench/configs/config.yaml
     model_manager = ModelManager(config_manager)
     
     model, _ = model_manager.load_model(model_name)
